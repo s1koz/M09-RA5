@@ -8,6 +8,9 @@ public class RotX {
 
         String msgs[] = {"ABC", "XYZ", "Hola, Mr.calçot", "Perdó, per tu què és?"};
         String msgsXifrats[] = new String[msgs.length];
+
+        String msgsXifrat = "Úiüht, úiü wx ùxì ív?";
+
         int posicioXifra = 0;
         int posicioDescifra = 0;
 
@@ -27,6 +30,11 @@ public class RotX {
 
             posicioDescifra+=2;
         }
+
+        System.out.println("\nMissatge Xifrat: " + msgsXifrat);
+        System.out.println("----------------");
+
+        forcaBrutaRotX(msgsXifrat);
     }
 
     public static String xifraRotX(String entrada, int posicio) {
@@ -131,54 +139,59 @@ public class RotX {
         return desxifrat;
     }
 
-    public static String forcaBrutaRotX(String entrada) {
+    public static void forcaBrutaRotX(String entrada) {
 
         String desxifrat = "";
 
-        for (int i = 0; i < entrada.length(); i++) {
+        for (int posicio = 0; posicio < alfabet.length();posicio++) {
 
-            char letra = entrada.charAt(i);
+            desxifrat = "";
 
-            boolean esMayuscula = false;
-            boolean esMinuscula = false;
+            for (int i = 0; i < entrada.length(); i++) {
 
-            for (int n = 0; n < alfabetMayuscula.length; n++) {
-                if (alfabetMayuscula[n] == letra) {
-                    esMayuscula = true;
-                    break;
-                }
-            }
+                char letra = entrada.charAt(i);
 
-            for (int n = 0; n < alfabetMinuscula.length; n++) {
-                if (alfabetMinuscula[n] == letra) {
-                    esMinuscula = true;
-                    break;
-                }
-            }
-
-            if (esMayuscula) {
+                boolean esMayuscula = false;
+                boolean esMinuscula = false;
 
                 for (int n = 0; n < alfabetMayuscula.length; n++) {
                     if (alfabetMayuscula[n] == letra) {
-                        desxifrat += alfabetMayuscula[(n - 13 + alfabetMayuscula.length) % alfabetMayuscula.length];
+                        esMayuscula = true;
                         break;
                     }
                 }
-
-            } else if (esMinuscula) {
 
                 for (int n = 0; n < alfabetMinuscula.length; n++) {
                     if (alfabetMinuscula[n] == letra) {
-                        desxifrat += alfabetMinuscula[(n - 13 + alfabetMinuscula.length) % alfabetMinuscula.length];
+                        esMinuscula = true;
                         break;
                     }
                 }
 
-            } else {
-                desxifrat += letra;
+                if (esMayuscula) {
+
+                    for (int n = 0; n < alfabetMayuscula.length; n++) {
+                        if (alfabetMayuscula[n] == letra) {
+                            desxifrat += alfabetMayuscula[(n - posicio + alfabetMayuscula.length) % alfabetMayuscula.length];
+                            break;
+                        }
+                    }
+
+                } else if (esMinuscula) {
+
+                    for (int n = 0; n < alfabetMinuscula.length; n++) {
+                        if (alfabetMinuscula[n] == letra) {
+                            desxifrat += alfabetMinuscula[(n - posicio + alfabetMinuscula.length) % alfabetMinuscula.length];
+                            break;
+                        }
+                    }
+
+                } else {
+                    desxifrat += letra;
+                }
             }
+            System.out.printf("(%d)->%s%n", posicio, desxifrat);
         }
 
-        return desxifrat;
     }
 }
