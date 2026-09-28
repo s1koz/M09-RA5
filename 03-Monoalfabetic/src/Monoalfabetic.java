@@ -36,13 +36,23 @@ public class Monoalfabetic {
 
         System.out.println();
 
-        int numTest = 1;
+        int numTestXifratge = 1;
         for (int i = 0; i < msgs.length; i++) {
-            msgsXifrats[i] = xifraMonoAlfa("Test " + String.format("%02d", numTest) + " " + msgs[i]);
-            System.out.printf("%-23s => %s%n",msgs[i], msgsXifrats[i]);
+            msgsXifrats[i] = xifraMonoAlfa("Test " + String.format("%02d", numTestXifratge) + " " + msgs[i]);
+            System.out.printf("%-35s -> %s%n",("Test " + String.format("%02d", numTestXifratge) + ' ' + msgs[i]), msgsXifrats[i]);
+            numTestXifratge++;
         }
 
+        // Desxifratge -------------------------------
+        System.out.printf("\nDesxifratge:");
 
+        System.out.println();
+
+        int numTestDesxifra = 1;
+        for (int n = 0; n < msgsXifrats.length; n++) {
+            System.out.printf("%-35s -> %s%n",("Test " + String.format("%02d", numTestDesxifra) + ' ' + msgsXifrats[n]), desxifraMonoAlfa(msgsXifrats[n]));
+            numTestDesxifra++;
+        }
 
     }
 
@@ -100,7 +110,32 @@ public class Monoalfabetic {
     public static String desxifraMonoAlfa(String cadena) {
         String desxifrat = "";
 
+        for (int i = 0; i < cadena.length(); i++) {
 
+            char letra = cadena.charAt(i);
+
+            if (Character.isUpperCase(letra)) {
+
+                for (int n = 0; n < alfabetPermutat.length; n++) {
+                    if (alfabetPermutat[n] == letra) {
+                        desxifrat += alfabetArry[n];
+                        break;
+                    }
+                }
+
+            } else if (Character.isLowerCase(letra)) {
+
+                for (int n = 0; n < alfabetPermutat.length; n++) {
+                    if (alfabetPermutat[n] == Character.toUpperCase(letra)) {
+                        desxifrat += Character.toLowerCase(alfabetArry[n]);
+                        break;
+                    }
+                }
+
+            } else {
+                desxifrat += letra;
+            }
+        }
 
         return desxifrat;
     }
