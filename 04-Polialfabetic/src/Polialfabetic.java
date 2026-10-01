@@ -34,7 +34,11 @@ public class Polialfabetic {
 
     }
 
-    public static void initRandom(int clauSecreta) {random = new Random(clauSecreta);}
+    public static void initRandom(int clauSecreta) {
+        random = new Random(clauSecreta);
+        alfabetPermutat = permutaAlfabet(alfabetArry);
+
+    }
 
     public static char[] permutaAlfabet(char[] alfabet) {
 
@@ -69,10 +73,10 @@ public class Polialfabetic {
             if (Character.isUpperCase(letra)) {
 
                 for (int n = 0; n < alfabetArry.length; n++) {
-                    alfabetPermutat = permutaAlfabet(alfabetArry);
+                    
                     if (alfabetArry[n] == letra) {
                         xifrat += alfabetPermutat[n];
-                        permutaAlfabet(alfabetArry);
+                        alfabetPermutat = permutaAlfabet(alfabetArry);
                         break;
                     }
                 }
@@ -80,9 +84,10 @@ public class Polialfabetic {
             } else if (Character.isLowerCase(letra)) {
 
                 for (int n = 0; n < alfabetArry.length; n++) {
-                    alfabetPermutat = permutaAlfabet(alfabetArry);
+                    
                     if (alfabetArry[n] == Character.toUpperCase(letra)) {
                         xifrat += Character.toLowerCase(alfabetPermutat[n]);
+                        alfabetPermutat = permutaAlfabet(alfabetArry);
                         break;
                     }
                 }
@@ -102,11 +107,14 @@ public class Polialfabetic {
 
             char letra = msgXifrat.charAt(i);
 
+
             if (Character.isUpperCase(letra)) {
 
                 for (int n = 0; n < alfabetPermutat.length; n++) {
+                    
                     if (alfabetPermutat[n] == letra) {
                         desxifrat += alfabetArry[n];
+                        alfabetPermutat = permutaAlfabet(alfabetArry);
                         break;
                     }
                 }
@@ -114,8 +122,10 @@ public class Polialfabetic {
             } else if (Character.isLowerCase(letra)) {
 
                 for (int n = 0; n < alfabetPermutat.length; n++) {
+                    
                     if (alfabetPermutat[n] == Character.toUpperCase(letra)) {
                         desxifrat += Character.toLowerCase(alfabetArry[n]);
+                        alfabetPermutat = permutaAlfabet(alfabetArry);
                         break;
                     }
                 }
