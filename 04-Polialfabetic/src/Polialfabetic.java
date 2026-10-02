@@ -9,7 +9,7 @@ public class Polialfabetic {
     static char[] alfabetPermutat;
 
     static Random random;
-    static int clauSecreta = 86;
+    private static int clauSecreta = 86;
 
     public static void main(String[] args) {
 
@@ -36,11 +36,11 @@ public class Polialfabetic {
 
     public static void initRandom(int clauSecreta) {
         random = new Random(clauSecreta);
-        alfabetPermutat = permutaAlfabet(alfabetArry);
+        permutaAlfabet(alfabetArry);
 
     }
 
-    public static char[] permutaAlfabet(char[] alfabet) {
+    public static void permutaAlfabet(char[] alfabet) {
 
         if (random == null) {
             random = new Random(clauSecreta);
@@ -54,13 +54,13 @@ public class Polialfabetic {
 
         Collections.shuffle(lista, random);
 
-        char[] permutat = new char[lista.size()];
+        alfabetPermutat = new char[lista.size()];
 
         for (int i = 0; i < lista.size(); i++) {
-            permutat[i] = lista.get(i);
+            alfabetPermutat[i] = lista.get(i);
         }
 
-        return permutat;
+
     }
 
     public static String xifraPoliAlfa(String msg) {
@@ -76,7 +76,7 @@ public class Polialfabetic {
                     
                     if (alfabetArry[n] == letra) {
                         xifrat += alfabetPermutat[n];
-                        alfabetPermutat = permutaAlfabet(alfabetArry);
+                        permutaAlfabet(alfabetArry);
                         break;
                     }
                 }
@@ -87,7 +87,7 @@ public class Polialfabetic {
                     
                     if (alfabetArry[n] == Character.toUpperCase(letra)) {
                         xifrat += Character.toLowerCase(alfabetPermutat[n]);
-                        alfabetPermutat = permutaAlfabet(alfabetArry);
+                        permutaAlfabet(alfabetArry);
                         break;
                     }
                 }
@@ -114,7 +114,7 @@ public class Polialfabetic {
                     
                     if (alfabetPermutat[n] == letra) {
                         desxifrat += alfabetArry[n];
-                        alfabetPermutat = permutaAlfabet(alfabetArry);
+                        permutaAlfabet(alfabetArry);
                         break;
                     }
                 }
@@ -125,7 +125,7 @@ public class Polialfabetic {
                     
                     if (alfabetPermutat[n] == Character.toUpperCase(letra)) {
                         desxifrat += Character.toLowerCase(alfabetArry[n]);
-                        alfabetPermutat = permutaAlfabet(alfabetArry);
+                        permutaAlfabet(alfabetArry);
                         break;
                     }
                 }
