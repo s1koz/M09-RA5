@@ -1,13 +1,16 @@
-public class XifradorRotX {
+package iticbcn.xifratge;
 
-    static String alfabet = "aáàbcçdeéèfghiíìïjklmnñoóòpqrstuúùüvwxyz";
-    static char[] alfabetMinuscula = alfabet.toCharArray();
-    static char[] alfabetMayuscula = alfabet.toUpperCase().toCharArray();
+public class XifradorRotX implements Xifrador {
+
+    private final String alfabet = "aáàbcçdeéèfghiíìïjklmnñoóòpqrstuúùüvwxyz";
+    private final char[] alfabetMinuscula = alfabet.toCharArray();
+    private final char[] alfabetMayuscula = alfabet.toUpperCase().toCharArray();
 
     public static void main(String[] args) {
 
         String msgs[] = {"ABC", "XYZ", "Hola, Mr.calçot", "Perdó, per tu què és?"};
         String msgsXifrats[] = new String[msgs.length];
+        XifradorRotX xifrador = new XifradorRotX();
 
         String msgsXifrat = "Úiüht, úiü wx ùxì ív?";
 
@@ -17,7 +20,7 @@ public class XifradorRotX {
         System.out.println("\nXifrat\n---------");
 
         for (int i = 0; i < msgs.length; i++) {
-            msgsXifrats[i] = xifraRotX(msgs[i], posicioXifra);
+            msgsXifrats[i] = xifrador.xifraRotX(msgs[i], posicioXifra);
             System.out.printf("(%d)-%-23s => %s%n", posicioXifra,msgs[i], msgsXifrats[i]);
 
             posicioXifra+=2;
@@ -26,7 +29,7 @@ public class XifradorRotX {
         System.out.println("\nDesxifrat\n---------");
 
         for (String msg : msgsXifrats) {
-            System.out.printf("(%d)-%-23s => %s%n", posicioDescifra,msg, desxifraRotX(msg, posicioDescifra));
+            System.out.printf("(%d)-%-23s => %s%n", posicioDescifra,msg, xifrador.desxifraRotX(msg, posicioDescifra));
 
             posicioDescifra+=2;
         }
@@ -34,10 +37,23 @@ public class XifradorRotX {
         System.out.println("\nMissatge Xifrat: " + msgsXifrat);
         System.out.println("----------------");
 
-        forcaBrutaRotX(msgsXifrat);
+        xifrador.forcaBrutaRotX(msgsXifrat);
     }
 
-    public static String xifraRotX(String entrada, int posicio) {
+    @Override
+    public TextXifrat xifra(String msg, String clau) throws ClauNoSuportada {
+        int posicio = Integer.parseInt(clau);
+        String resultat = xifraRotX(msg, posicio);
+        return new TextXifrat(resultat);
+    }
+
+    @Override
+    public String desxifra(TextXifrat xifrat, String clau) throws ClauNoSuportada {
+        int posicio = Integer.parseInt(clau);
+        return desxifraRotX(xifrat.toString(), posicio);
+    }
+
+    public String xifraRotX(String entrada, int posicio) {
 
         String xifrat = "";
 
@@ -88,7 +104,7 @@ public class XifradorRotX {
         return xifrat;
     }
 
-    public static String desxifraRotX(String entrada, int posicio) {
+    public String desxifraRotX(String entrada, int posicio) {
 
         String desxifrat = "";
 
@@ -139,7 +155,7 @@ public class XifradorRotX {
         return desxifrat;
     }
 
-    public static void forcaBrutaRotX(String entrada) {
+    public void forcaBrutaRotX(String entrada) {
 
         String desxifrat = "";
 
@@ -192,6 +208,8 @@ public class XifradorRotX {
             }
             System.out.printf("(%d)->%s%n", posicio, desxifrat);
         }
+
+        
 
     }
 }

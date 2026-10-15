@@ -4,12 +4,12 @@ import java.util.Random;
 
 public class Polialfabetic {
 
-    static String alfabet = "AÁÀBCÇDEÉÈFGHIÍÌÏJKLMNÑOÓÒPQRSTUÚÙÜVWXYZ";
-    static char[] alfabetArry = alfabet.toCharArray();
-    static char[] alfabetPermutat;
+    private final String alfabet = "AÁÀBCÇDEÉÈFGHIÍÌÏJKLMNÑOÓÒPQRSTUÚÙÜVWXYZ";
+    private final char[] alfabetArry = alfabet.toCharArray();
+    private char[] alfabetPermutat;
 
-    static Random random;
-    private static int clauSecreta = 86;
+    private Random random;
+    private final int clauSecreta = 86;
 
     public static void main(String[] args) {
 
@@ -17,30 +17,31 @@ public class Polialfabetic {
                 "Test 02 Taüll, DÍA, año", 
                 "Test 03 Peça, Òrrius, Bòvila"};
         String msgsXifrats[] = new String[msgs.length];
+        Polialfabetic xifrador = new Polialfabetic();
 
         System.out.println("Xifratge:\n--------");
         for (int i = 0; i < msgs.length; i++) {
-            initRandom(clauSecreta);
-            msgsXifrats[i] = xifraPoliAlfa(msgs[i]);
+            xifrador.initRandom(xifrador.clauSecreta);
+            msgsXifrats[i] = xifrador.xifraPoliAlfa(msgs[i]);
             System.out.printf("%-34s -> %s%n", msgs[i], msgsXifrats[i]);
         }
 
         System.out.println("Desxifratge:\n--------");
         for (int i = 0; i < msgs.length; i++) {
-            initRandom(clauSecreta);
-            String msg = desxifraPoliAlfa(msgsXifrats[i]);
+            xifrador.initRandom(xifrador.clauSecreta);
+            String msg = xifrador.desxifraPoliAlfa(msgsXifrats[i]);
             System.out.printf("%-34s -> %s%n", msgsXifrats[i], msg);
         }
 
     }
 
-    public static void initRandom(int clauSecreta) {
+    public void initRandom(int clauSecreta) {
         random = new Random(clauSecreta);
         permutaAlfabet(alfabetArry);
 
     }
 
-    public static void permutaAlfabet(char[] alfabet) {
+    public void permutaAlfabet(char[] alfabet) {
 
         if (random == null) {
             random = new Random(clauSecreta);
@@ -63,7 +64,7 @@ public class Polialfabetic {
 
     }
 
-    public static String xifraPoliAlfa(String msg) {
+    public String xifraPoliAlfa(String msg) {
         String xifrat = "";
 
         for (int i = 0; i < msg.length(); i++) {
@@ -100,7 +101,7 @@ public class Polialfabetic {
         return xifrat;
     }
 
-    public static String desxifraPoliAlfa(String msgXifrat) {
+    public String desxifraPoliAlfa(String msgXifrat) {
         String desxifrat = "";
 
         for (int i = 0; i < msgXifrat.length(); i++) {

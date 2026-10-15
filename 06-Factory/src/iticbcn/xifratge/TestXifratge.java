@@ -1,3 +1,5 @@
+package iticbcn.xifratge;
+
 public class TestXifratge {
     public static void main(String[] args) {
         AlgorismeFactory[] aFactory = {
@@ -32,7 +34,7 @@ public class TestXifratge {
                     } catch (ClauNoSuportada e) {
                             System.err.println(e.getLocalizedMessage());
                     }
-                    System.out.println("TextXifrat: " + txt);
+                    System.out.println("TextXifrat: " + tx);
 
                     String desxifrat = null;
 
