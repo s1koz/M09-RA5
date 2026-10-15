@@ -1,30 +1,29 @@
 public class Rot13 {
 
-    private final String alfabet = "aáàbcçdeéèfghiíìïjklmnñoóòpqrstuúùüvwxyz";
-    private final char[] alfabetMinuscula = alfabet.toCharArray();
-    private final char[] alfabetMayuscula = alfabet.toUpperCase().toCharArray();
+    static String alfabet = "aáàbcçdeéèfghiíìïjklmnñoóòpqrstuúùüvwxyz";
+    static char[] alfabetMinuscula = alfabet.toCharArray();
+    static char[] alfabetMayuscula = alfabet.toUpperCase().toCharArray();
 
     public static void main(String[] args) {
 
         String msgs[] = {"ABC", "XYZ", "Hola, Mr.calçot", "Perdó, per tu què és?"};
         String msgsXifrats[] = new String[msgs.length];
-        Rot13 xifrador = new Rot13();
 
         System.out.println("\nXifrat\n---------");
 
         for (int i = 0; i < msgs.length; i++) {
-            msgsXifrats[i] = xifrador.xifraRot13(msgs[i]);
+            msgsXifrats[i] = xifraRot13(msgs[i]);
             System.out.printf("%-23s => %s%n", msgs[i], msgsXifrats[i]);
         }
 
         System.out.println("\nDesxifrat\n---------");
 
         for (String msg : msgsXifrats) {
-            System.out.printf("%-23s => %s%n", msg, xifrador.desxifraRot13(msg));
+            System.out.printf("%-23s => %s%n", msg, desxifraRot13(msg));
         }
     }
 
-    public String xifraRot13(String entrada) {
+    public static String xifraRot13(String entrada) {
 
         String xifrat = "";
 
@@ -75,7 +74,7 @@ public class Rot13 {
         return xifrat;
     }
 
-    public String desxifraRot13(String entrada) {
+    public static String desxifraRot13(String entrada) {
 
         String desxifrat = "";
 

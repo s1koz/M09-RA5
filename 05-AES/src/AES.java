@@ -8,21 +8,21 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AES {
 
-    public final String ALGORSME_XIFRAT = "AES";
-    public final String ALGORISME_HASH = "SHA-256";
-    public final String FORMAT_AES = "AES/CBC/PKCS5Padding";
+    public static final String ALGORSME_XIFRAT = "AES";
+    public static final String ALGORISME_HASH = "SHA-256";
+    public static final String FORMAT_AES = "AES/CBC/PKCS5Padding";
 
-    private final int MIDA_IV = 16;
-    private final String CLAU = "374647sj";
+    private static final int MIDA_IV = 16;
+    private static final byte[] iv = new byte[MIDA_IV];
+    private static final String CLAU = "374647sj";
 
-    private final SecureRandom sr = new SecureRandom();
+    private static SecureRandom sr = new SecureRandom();
 
     public static void main(String[] args) {
 
         String msgs[] = {"Lorem ipsum dicet",
                     "Hola Andrés cómo está tu cuñado",
                     "Àgora ïlla Ôtto"};
-        AES xifrador = new AES();
 
         for (int i = 0; i < msgs.length; i++) {
             String msg = msgs[i];
@@ -30,8 +30,8 @@ public class AES {
             byte[] bXifrats = null;
             String desxifrat = "";
             try {
-                bXifrats = xifrador.xifraAES(msg, xifrador.CLAU);
-                desxifrat = xifrador.desxifraAES(bXifrats, xifrador.CLAU);
+                bXifrats = xifraAES(msg, CLAU);
+                desxifrat = desxifraAES(bXifrats, CLAU);
             } catch (Exception e) {
                 System.err.println("Error de xifrat: " + e.getLocalizedMessage());
             }
@@ -44,7 +44,7 @@ public class AES {
         
     }
 
-    public byte[] xifraAES(String msg, String password) throws Exception {
+    public static byte[] xifraAES(String msg, String password) throws Exception {
 
         byte[] bytes = java.security.MessageDigest.getInstance("SHA-256").digest(password.getBytes(StandardCharsets.UTF_8));
         byte[] clauAES = Arrays.copyOf(bytes, 16);
@@ -70,7 +70,7 @@ public class AES {
 
     }
 
-    public String desxifraAES(byte[] bMsgXifrat, String password) throws Exception {
+    public static String desxifraAES(byte[] bMsgXifrat, String password) throws Exception {
 
         byte[] bytes = java.security.MessageDigest.getInstance("SHA-256").digest(password.getBytes(StandardCharsets.UTF_8));
         byte[] clauAES = Arrays.copyOf(bytes, 16);

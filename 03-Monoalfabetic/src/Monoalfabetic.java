@@ -3,31 +3,30 @@ import java.util.Collections;
 
 public class Monoalfabetic {
 
-    private final String alfabet = "AÁÀBCÇDEÉÈFGHIÍÌÏJKLMNÑOÓÒPQRSTUÚÙÜVWXYZ";
-    private final char[] alfabetArry = alfabet.toCharArray();
-    private final char[] alfabetPermutat = permutaAlfabet(alfabetArry);
+    static String alfabet = "AÁÀBCÇDEÉÈFGHIÍÌÏJKLMNÑOÓÒPQRSTUÚÙÜVWXYZ";
+    static char[] alfabetArry = alfabet.toCharArray();
+    static char[] alfabetPermutat = permutaAlfabet(alfabetArry);
 
     public static void main(String[] args) {
 
         String[] msgs = {"àrbritre, coixí, Perímetre", "Taüll, DÍA, año", "Peça, Òrrius, Bòvila"};
         String msgsXifrats[] = new String[msgs.length];
-        Monoalfabetic xifrador = new Monoalfabetic();
 
         // alfabet ---------------------------------
-        for (int i = 0; i < xifrador.alfabetArry.length; i++) {
-            System.out.print(xifrador.alfabetArry[i]);
+        for (int i = 0; i < alfabetArry.length; i++) {
+            System.out.print(alfabetArry[i]);
 
-            if (i < xifrador.alfabetArry.length - 1) {
+            if (i < alfabetArry.length - 1) {
                 System.out.print(" ");
             }
         }
         System.out.println();
 
         // alfabetPermutat ---------------------------------
-        for (int i = 0; i < xifrador.alfabetPermutat.length; i++) {
-            System.out.print(xifrador.alfabetPermutat[i]);
+        for (int i = 0; i < alfabetPermutat.length; i++) {
+            System.out.print(alfabetPermutat[i]);
 
-            if (i < xifrador.alfabetPermutat.length - 1) {
+            if (i < alfabetPermutat.length - 1) {
                 System.out.print(" ");
             }
         }
@@ -39,7 +38,7 @@ public class Monoalfabetic {
 
         int numTestXifratge = 1;
         for (int i = 0; i < msgs.length; i++) {
-            msgsXifrats[i] = xifrador.xifraMonoAlfa("Test " + String.format("%02d", numTestXifratge) + " " + msgs[i]);
+            msgsXifrats[i] = xifraMonoAlfa("Test " + String.format("%02d", numTestXifratge) + " " + msgs[i]);
             System.out.printf("%-35s -> %s%n",("Test " + String.format("%02d", numTestXifratge) + ' ' + msgs[i]), msgsXifrats[i]);
             numTestXifratge++;
         }
@@ -51,13 +50,13 @@ public class Monoalfabetic {
 
         int numTestDesxifra = 1;
         for (int n = 0; n < msgsXifrats.length; n++) {
-            System.out.printf("%-35s -> %s%n",("Test " + String.format("%02d", numTestDesxifra) + ' ' + msgsXifrats[n]), xifrador.desxifraMonoAlfa(msgsXifrats[n]));
+            System.out.printf("%-35s -> %s%n",("Test " + String.format("%02d", numTestDesxifra) + ' ' + msgsXifrats[n]), desxifraMonoAlfa(msgsXifrats[n]));
             numTestDesxifra++;
         }
 
     }
 
-    public char[] permutaAlfabet(char[] alfabet) {
+    public static char[] permutaAlfabet(char[] alfabet) {
         ArrayList<Character> lista = new ArrayList<>();
 
         for (char letra : alfabet) {
@@ -75,7 +74,7 @@ public class Monoalfabetic {
         return permutat;
     }
 
-    public String xifraMonoAlfa(String cadena) {
+    public static String xifraMonoAlfa(String cadena) {
         String xifrat = "";
 
         for (int i = 0; i < cadena.length(); i++) {
@@ -108,7 +107,7 @@ public class Monoalfabetic {
         return xifrat;
     }
 
-    public String desxifraMonoAlfa(String cadena) {
+    public static String desxifraMonoAlfa(String cadena) {
         String desxifrat = "";
 
         for (int i = 0; i < cadena.length(); i++) {
