@@ -11,11 +11,11 @@ public class XifradorPolialfabetic implements Xifrador {
     private char[] alfabetPermutat;
 
     private Random random;
-    private final int clauSecreta = 86;
-
-    public void initRandom(int clauSecreta) {
-        random = new Random(clauSecreta);
-        permutaAlfabet(alfabetArry);
+    private final long clauSecreta = 86; 
+    
+    public void initRandom(long clauSecreta) { 
+        random = new Random(clauSecreta); 
+        permutaAlfabet(alfabetArry); 
     }
 
     public void permutaAlfabet(char[] alfabet) {
@@ -103,10 +103,11 @@ public class XifradorPolialfabetic implements Xifrador {
             throws ClauNoSuportada {
 
         try {
-            initRandom(Integer.parseInt(clau));
+            initRandom(Long.parseLong(clau));
             return new TextXifrat(xifraPoliAlfa(msg).getBytes());
         } catch (NumberFormatException e) {
-            throw new ClauNoSuportada("Clau no suportada");
+            throw new ClauNoSuportada(
+                    "La clau per xifrat Polialfabetic ha de ser un String convertible a long");
         }
     }
 
@@ -115,10 +116,12 @@ public class XifradorPolialfabetic implements Xifrador {
             throws ClauNoSuportada {
 
         try {
-            initRandom(Integer.parseInt(clau));
+            initRandom(Long.parseLong(clau));
             return desxifraPoliAlfa(xifrat.toString());
         } catch (NumberFormatException e) {
-            throw new ClauNoSuportada("Clau no suportada");
+            throw new ClauNoSuportada(
+                    "La clau de Polialfabetic ha de ser un String convertible a long");
         }
     }
+
 }

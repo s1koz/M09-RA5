@@ -92,7 +92,8 @@ public class XifradorMonoalfabetic implements Xifrador {
             throws ClauNoSuportada {
 
         if (clau != null) {
-            throw new ClauNoSuportada("Clau no suportada");
+            throw new ClauNoSuportada(
+                    "Xifratge monoalfabètic no suporta clau != null");
         }
 
         return new TextXifrat(xifraMonoAlfa(msg).getBytes());
@@ -103,9 +104,11 @@ public class XifradorMonoalfabetic implements Xifrador {
             throws ClauNoSuportada {
 
         if (clau != null) {
-            throw new ClauNoSuportada("Clau no suportada");
+            throw new ClauNoSuportada(
+                    "Xifratge monoalfabètic no suporta clau != null");
         }
 
         return desxifraMonoAlfa(xifrat.toString());
     }
+
 }

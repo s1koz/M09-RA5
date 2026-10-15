@@ -75,7 +75,8 @@ public class XifradorAES implements Xifrador {
         try {
             return new TextXifrat(xifraAES(msg, clau));
         } catch (Exception e) {
-            System.err.println("Error de xifrat: " + e.getLocalizedMessage());
+            System.err.println(
+                    "Error de xifrat: " + e.getLocalizedMessage());
             System.exit(1);
             return null;
         }
@@ -92,4 +93,5 @@ public class XifradorAES implements Xifrador {
                     "Error de desxifratge AES: " + e.getLocalizedMessage());
         }
     }
+
 }

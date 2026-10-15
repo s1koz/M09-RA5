@@ -1,5 +1,7 @@
 package iticbcn.xifratge;
 
+import java.nio.charset.StandardCharsets;
+
 public class TextXifrat {
 
     private byte[] bytes;
@@ -14,6 +16,7 @@ public class TextXifrat {
 
     @Override
     public String toString() {
-        return new String(bytes);
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 }
+
