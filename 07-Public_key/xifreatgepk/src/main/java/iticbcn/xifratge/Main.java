@@ -1,5 +1,6 @@
 package iticbcn.xifratge;
 import java.security.KeyPair;
+
 import javax.xml.bind.DatatypeConverter;
 
 public class Main {
@@ -14,13 +15,13 @@ public class Main {
         byte[] msgXifrat = cp.xifraRSA(msg, parellClaus.getPublic());
 
         System.out.println("=======================================");
-        System.out.print("Text xifrat:");
+        System.out.println("Text xifrat:");
         System.out.println(DatatypeConverter.printHexBinary(msgXifrat));
 
         String msgDesxifrat = cp.desxifraRSA(msgXifrat, parellClaus.getPrivate());
         System.out.println("=======================================");
         System.out.println("Text desxifrat: "+ msgDesxifrat);
-
+        
         String strClauPub = DatatypeConverter.printHexBinary(
             parellClaus.getPublic().getEncoded()
         );
@@ -30,8 +31,10 @@ public class Main {
         );
 
         System.out.println("=======================================");
-        System.out.println("Clàu pública: " + strClauPub);
-        System.out.println("Clàu privada: " + strClauPriv);
+        System.out.println("Clàu pública:");
+        System.out.println(strClauPub);
+        System.out.println("Clàu privada:");
+        System.out.println(strClauPriv);
         System.out.println("=======================================");
    
     }
