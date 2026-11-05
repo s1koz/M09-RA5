@@ -2,242 +2,47 @@ package iticbcn.xifratge;
 
 public class XifradorRotX implements Xifrador {
 
-    private final String alfabet = "aáàbcçdeéèfghiíìïjklmnñoóòpqrstuúùüvwxyz";
-    private final char[] alfabetMinuscula = alfabet.toCharArray();
-    private final char[] alfabetMayuscula = alfabet.toUpperCase().toCharArray();
-
-    public static void main(String[] args) {
-
-        String msgs[] = {"ABC", "XYZ", "Hola, Mr.calçot", "Perdó, per tu què és?"};
-        String msgsXifrats[] = new String[msgs.length];
-        XifradorRotX xifrador = new XifradorRotX();
-
-        String msgsXifrat = "Úiüht, úiü wx ùxì ív?";
-
-        int posicioXifra = 0;
-        int posicioDescifra = 0;
-
-        System.out.println("\nXifrat\n---------");
-
-        for (int i = 0; i < msgs.length; i++) {
-            msgsXifrats[i] = xifrador.xifraRotX(msgs[i], posicioXifra);
-            System.out.printf("(%d)-%-23s => %s%n", posicioXifra,msgs[i], msgsXifrats[i]);
-
-            posicioXifra+=2;
+    @Override
+    public TextXifrat xifra(String msg, String clau) throws ClauNoSuportada {
+        if (clau == null) {
+            throw new ClauNoSuportada("La clau RotX no pot ser nul·la");
         }
 
-        System.out.println("\nDesxifrat\n---------");
-
-        for (String msg : msgsXifrats) {
-            System.out.printf("(%d)-%-23s => %s%n", posicioDescifra,msg, xifrador.desxifraRotX(msg, posicioDescifra));
-
-            posicioDescifra+=2;
+        int desplaçament;
+        try {
+            desplaçament = Integer.parseInt(clau);
+        } catch (NumberFormatException e) {
+            throw new ClauNoSuportada("Clau no vàlida per a RotX (ha de ser un enter): " + clau);
         }
 
-        System.out.println("\nMissatge Xifrat: " + msgsXifrat);
-        System.out.println("----------------");
-
-        xifrador.forcaBrutaRotX(msgsXifrat);
+        char[] chars = msg.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            chars[i] = (char) (chars[i] + desplaçament);
+        }
+        return new TextXifrat(new String(chars).getBytes());
     }
 
     @Override
-    public TextXifrat xifra(String msg, String clau)
-            throws ClauNoSuportada {
+    public String desxifra(TextXifrat xifrat, String clau) throws ClauNoSuportada {
+        if (clau == null) {
+            throw new ClauNoSuportada("La clau RotX no pot ser nul·la");
+        }
+        if (xifrat == null) {
+            throw new ClauNoSuportada("No es pot desxifrar un TextXifrat nul");
+        }
 
-        int posicio;
-
+        int desplaçament;
         try {
-            posicio = Integer.parseInt(clau);
-
-            if (posicio < 0 || posicio > 40) {
-                throw new NumberFormatException();
-            }
+            desplaçament = Integer.parseInt(clau);
         } catch (NumberFormatException e) {
-            throw new ClauNoSuportada(
-                    "Clau de RotX ha de ser un sencer de 0 a 40");
+            throw new ClauNoSuportada("Clau no vàlida per a RotX (ha de ser un enter): " + clau);
         }
 
-        return new TextXifrat(xifraRotX(msg, posicio).getBytes());
-    }
-
-    @Override
-    public String desxifra(TextXifrat xifrat, String clau)
-            throws ClauNoSuportada {
-
-        int posicio;
-
-        try {
-            posicio = Integer.parseInt(clau);
-
-            if (posicio < 0 || posicio > 40) {
-                throw new NumberFormatException();
-            }
-        } catch (NumberFormatException e) {
-            throw new ClauNoSuportada(
-                    "Clau de RotX ha de ser un sencer de 0 a 40");
+        String msg = new String(xifrat.getBytes());
+        char[] chars = msg.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            chars[i] = (char) (chars[i] - desplaçament);
         }
-
-        return desxifraRotX(xifrat.toString(), posicio);
-    }
-
-
-    public String xifraRotX(String entrada, int posicio) {
-
-        String xifrat = "";
-
-        for (int i = 0; i < entrada.length(); i++) {
-
-            char letra = entrada.charAt(i);
-
-            boolean esMayuscula = false;
-            boolean esMinuscula = false;
-
-            for (int n = 0; n < alfabetMayuscula.length; n++) {
-                if (alfabetMayuscula[n] == letra) {
-                    esMayuscula = true;
-                    break;
-                }
-            }
-
-            for (int n = 0; n < alfabetMinuscula.length; n++) {
-                if (alfabetMinuscula[n] == letra) {
-                    esMinuscula = true;
-                    break;
-                }
-            }
-
-            if (esMayuscula) {
-
-                for (int n = 0; n < alfabetMayuscula.length; n++) {
-                    if (alfabetMayuscula[n] == letra) {
-                        xifrat += alfabetMayuscula[(n + posicio) % alfabetMayuscula.length];
-                        break;
-                    }
-                }
-
-            } else if (esMinuscula) {
-
-                for (int n = 0; n < alfabetMinuscula.length; n++) {
-                    if (alfabetMinuscula[n] == letra) {
-                        xifrat += alfabetMinuscula[(n + posicio) % alfabetMinuscula.length];
-                        break;
-                    }
-                }
-
-            } else {
-                xifrat += letra;
-            }
-        }
-
-        return xifrat;
-    }
-
-    public String desxifraRotX(String entrada, int posicio) {
-
-        String desxifrat = "";
-
-        for (int i = 0; i < entrada.length(); i++) {
-
-            char letra = entrada.charAt(i);
-
-            boolean esMayuscula = false;
-            boolean esMinuscula = false;
-
-            for (int n = 0; n < alfabetMayuscula.length; n++) {
-                if (alfabetMayuscula[n] == letra) {
-                    esMayuscula = true;
-                    break;
-                }
-            }
-
-            for (int n = 0; n < alfabetMinuscula.length; n++) {
-                if (alfabetMinuscula[n] == letra) {
-                    esMinuscula = true;
-                    break;
-                }
-            }
-
-            if (esMayuscula) {
-
-                for (int n = 0; n < alfabetMayuscula.length; n++) {
-                    if (alfabetMayuscula[n] == letra) {
-                        desxifrat += alfabetMayuscula[(n - posicio + alfabetMayuscula.length) % alfabetMayuscula.length];
-                        break;
-                    }
-                }
-
-            } else if (esMinuscula) {
-
-                for (int n = 0; n < alfabetMinuscula.length; n++) {
-                    if (alfabetMinuscula[n] == letra) {
-                        desxifrat += alfabetMinuscula[(n - posicio + alfabetMinuscula.length) % alfabetMinuscula.length];
-                        break;
-                    }
-                }
-
-            } else {
-                desxifrat += letra;
-            }
-        }
-
-        return desxifrat;
-    }
-
-    public void forcaBrutaRotX(String entrada) {
-
-        String desxifrat = "";
-
-        for (int posicio = 0; posicio < alfabet.length();posicio++) {
-
-            desxifrat = "";
-
-            for (int i = 0; i < entrada.length(); i++) {
-
-                char letra = entrada.charAt(i);
-
-                boolean esMayuscula = false;
-                boolean esMinuscula = false;
-
-                for (int n = 0; n < alfabetMayuscula.length; n++) {
-                    if (alfabetMayuscula[n] == letra) {
-                        esMayuscula = true;
-                        break;
-                    }
-                }
-
-                for (int n = 0; n < alfabetMinuscula.length; n++) {
-                    if (alfabetMinuscula[n] == letra) {
-                        esMinuscula = true;
-                        break;
-                    }
-                }
-
-                if (esMayuscula) {
-
-                    for (int n = 0; n < alfabetMayuscula.length; n++) {
-                        if (alfabetMayuscula[n] == letra) {
-                            desxifrat += alfabetMayuscula[(n - posicio + alfabetMayuscula.length) % alfabetMayuscula.length];
-                            break;
-                        }
-                    }
-
-                } else if (esMinuscula) {
-
-                    for (int n = 0; n < alfabetMinuscula.length; n++) {
-                        if (alfabetMinuscula[n] == letra) {
-                            desxifrat += alfabetMinuscula[(n - posicio + alfabetMinuscula.length) % alfabetMinuscula.length];
-                            break;
-                        }
-                    }
-
-                } else {
-                    desxifrat += letra;
-                }
-            }
-            System.out.printf("(%d)->%s%n", posicio, desxifrat);
-        }
-
-        
-
+        return new String(chars);
     }
 }

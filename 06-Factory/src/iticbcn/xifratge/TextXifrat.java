@@ -16,7 +16,7 @@ public class TextXifrat {
 
     @Override
     public String toString() {
+        if (bytes == null) return "null";
         return new String(bytes, StandardCharsets.UTF_8);
     }
 }
-

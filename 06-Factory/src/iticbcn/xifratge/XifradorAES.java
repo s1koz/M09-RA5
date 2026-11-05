@@ -3,6 +3,7 @@ package iticbcn.xifratge;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Arrays;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -16,9 +17,7 @@ public class XifradorAES implements Xifrador {
     private final int MIDA_IV = 16;
     private final SecureRandom sr = new SecureRandom();
 
-    public byte[] xifraAES(String msg, String password)
-            throws Exception {
-
+    public byte[] xifraAES(String msg, String password) throws Exception {
         byte[] bytes = java.security.MessageDigest
                 .getInstance(ALGORISME_HASH)
                 .digest(password.getBytes(StandardCharsets.UTF_8));
@@ -44,9 +43,7 @@ public class XifradorAES implements Xifrador {
         return resultat;
     }
 
-    public String desxifraAES(byte[] bMsgXifrat, String password)
-            throws Exception {
-
+    public String desxifraAES(byte[] bMsgXifrat, String password) throws Exception {
         byte[] bytes = java.security.MessageDigest
                 .getInstance(ALGORISME_HASH)
                 .digest(password.getBytes(StandardCharsets.UTF_8));
@@ -55,8 +52,7 @@ public class XifradorAES implements Xifrador {
         SecretKeySpec secretKeySpec = new SecretKeySpec(clauAES, ALGORSME_XIFRAT);
 
         byte[] iv = Arrays.copyOfRange(bMsgXifrat, 0, MIDA_IV);
-        byte[] msgXifrat = Arrays.copyOfRange(
-                bMsgXifrat, MIDA_IV, bMsgXifrat.length);
+        byte[] msgXifrat = Arrays.copyOfRange(bMsgXifrat, MIDA_IV, bMsgXifrat.length);
 
         IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
 
@@ -69,29 +65,29 @@ public class XifradorAES implements Xifrador {
     }
 
     @Override
-    public TextXifrat xifra(String msg, String clau)
-            throws ClauNoSuportada {
-
+    public TextXifrat xifra(String msg, String clau) throws ClauNoSuportada {
+        if (clau == null) {
+            throw new ClauNoSuportada("La clau AES no pot ser nul·la");
+        }
         try {
             return new TextXifrat(xifraAES(msg, clau));
         } catch (Exception e) {
-            System.err.println(
-                    "Error de xifrat: " + e.getLocalizedMessage());
-            System.exit(1);
-            return null;
+            throw new ClauNoSuportada("Error de xifrat AES: " + e.getLocalizedMessage());
         }
     }
 
     @Override
-    public String desxifra(TextXifrat xifrat, String clau)
-            throws ClauNoSuportada {
-
+    public String desxifra(TextXifrat xifrat, String clau) throws ClauNoSuportada {
+        if (clau == null) {
+            throw new ClauNoSuportada("La clau AES no pot ser nul·la");
+        }
+        if (xifrat == null) {
+            throw new ClauNoSuportada("No es pot desxifrar un TextXifrat nul");
+        }
         try {
             return desxifraAES(xifrat.getBytes(), clau);
         } catch (Exception e) {
-            throw new ClauNoSuportada(
-                    "Error de desxifratge AES: " + e.getLocalizedMessage());
+            throw new ClauNoSuportada("Error de desxifratge AES: " + e.getLocalizedMessage());
         }
     }
-
 }

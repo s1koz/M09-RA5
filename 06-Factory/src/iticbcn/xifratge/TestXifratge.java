@@ -15,7 +15,7 @@ public class TestXifratge {
         String[][] claus = {{"Claus Secreta 01"}, {"ErrorClau", null},
                         {"ErrorClaus2","123456"},{"-1","13","1000","Errorclau"}};
 
-        for (int i = 0; i<aFactory.length;i++) {
+        for (int i = 0; i < aFactory.length; i++) {
             AlgorismeFactory alg = aFactory[i];
             String nom = aNames[i];
 
@@ -32,16 +32,16 @@ public class TestXifratge {
                     try {
                         tx = xifrador.xifra(msg, clau);
                     } catch (ClauNoSuportada e) {
-                            System.err.println(e.getLocalizedMessage());
+                        System.err.println(e.getLocalizedMessage());
                     }
                     System.out.println("TextXifrat: " + tx);
 
                     String desxifrat = null;
 
                     try {
-                            desxifrat = xifrador.desxifrat(tx, clau);
+                        desxifrat = xifrador.desxifra(tx, clau);
                     } catch (ClauNoSuportada e) {
-                            System.err.println(e.getLocalizedMessage());
+                        System.err.println(e.getLocalizedMessage());
                     }
                     System.out.println("Desxifrat: " + desxifrat);
                     System.out.println("------------");

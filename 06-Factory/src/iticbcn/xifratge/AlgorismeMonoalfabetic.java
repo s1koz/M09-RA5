@@ -7,4 +7,3 @@ public class AlgorismeMonoalfabetic extends AlgorismeFactory {
         return new XifradorMonoalfabetic();
     }
 }
-
